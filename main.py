@@ -27,6 +27,21 @@ for _ in range(num_questions):
   # Nate Lepper
   # August 21 2023
   # Printing Number Generation on Console
+  # Version 2
+  question, correct_answer = generate_question()
+  print(question)
+  
+  user_answer = input("Your answer: ")
+
+  try:
+  # Nate Lepper
+  # August 22 2023
+  # Getting User Input and Checking User Input
   # Version 1
-        question, correct_answer = generate_question()
-        print(question)
+      if int(user_answer) == correct_answer:
+          print("Correct!\n")
+          score += 1
+      else:
+          print(f"Wrong! The correct answer is {correct_answer}\n")
+  except ValueError:
+      print("Invalid input. Please enter a valid number.\n")
