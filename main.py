@@ -1,6 +1,16 @@
 import random
 import time
 
+def starting_menu():
+
+  # Nate Lepper
+  # August 22 2023
+  # Starting Menu
+  # Version 1
+  
+    print("Welcome to the Math Game!")
+    print("You will be presented with addition and subtraction questions.")
+  
 def generate_question():
   # Nate Lepper
   # August 21 2023
@@ -22,7 +32,7 @@ num_questions = 5
 # Set Number of Questions
 
   # Main Sequence
-
+starting_menu()
 for _ in range(num_questions):
   # Nate Lepper
   # August 21 2023
@@ -37,7 +47,7 @@ for _ in range(num_questions):
   # Nate Lepper
   # August 22 2023
   # Getting User Input and Checking User Input
-  # Version 1
+  # Version 2
       if int(user_answer) == correct_answer:
           print("Correct!\n")
           score += 1
@@ -45,3 +55,5 @@ for _ in range(num_questions):
           print(f"Wrong! The correct answer is {correct_answer}\n")
   except ValueError:
       print("Invalid input. Please enter a valid number.\n")
+
+print(f"Game over! Your score: {score}/{num_questions}")
