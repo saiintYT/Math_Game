@@ -1,15 +1,31 @@
 import random
 import time
+import os
 
+def clear_console():
+  # Nate Lepper
+  # August 30 2023
+  # Clears Console
+  # Version 1
+    # Clear console screen for Windows and Unix-like systems
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def starting_menu():
+  # Nate Lepper
+  # August 30 2023
+  # Starting Menu
+  # Version 3
   print("Welcome to the Math Game!")
   print("You will be presented with addition and subtraction questions.")
   print("You have 3 lives.")
   print("Good luck!\n")
-
+  
 
 def generate_question():
+  # Nate Lepper
+  # August 30 2023
+  # Random Question Generate
+  # Version 3
   num1 = random.randint(1, 50)
   num2 = random.randint(1, 50)
   operator = random.choice(['+', '-'])
@@ -23,15 +39,25 @@ def generate_question():
 
 
 def main():
+# Nate Lepper
+# August 30 2023
+# Main math game function
+# Version 3
   score = 0
+  # Set Score
   num_questions = 5
+  # Set Number of Questions
   lives = 3
-
+  # Main Sequence
   starting_menu()
 
   playing = True
   while playing:
+  # player loop
+  # Version 1
     for _ in range(num_questions):
+      # Printing Number Generation on Console
+      # Version 3
       question, correct_answer = generate_question()
       print(question)
 
@@ -52,6 +78,8 @@ def main():
 
     if play_again:
       print("\nStarting a new game...\n")
+      clear_console()
+      starting_menu()
       score = 0
       lives = 3
     else:
