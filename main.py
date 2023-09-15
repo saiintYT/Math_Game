@@ -1,91 +1,113 @@
 import random
-import time
 import os
 
 def clear_console():
-  # Nate Lepper
-  # August 30 2023
-  # Clears Console
-  # Version 1
-    # Clear console screen for Windows and Unix-like systems
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def starting_menu():
-  # Nate Lepper
-  # August 30 2023
-  # Starting Menu
-  # Version 3
-  print("Welcome to the Math Game!")
-  print("You will be presented with addition and subtraction questions.")
-  print("You have 3 lives.")
-  print("Good luck!\n")
-  
+def introduction():
+    print("Welcome to the Math Game!")
+    print("In this game, you will be presented with addition and subtraction questions.")
+    print("Your goal is to answer as many questions correctly as possible.")
+    print("You will start with 3 lives. Each wrong answer will cost you a life.")
+    print("The game will end when you run out of lives or after 5 questions.")
+    print("Good luck!\n")
+
+def get_player_name():
+    name = input("Please enter your name: ")
+    return name
 
 def generate_question():
-  # Nate Lepper
-  # August 30 2023
-  # Random Question Generate
-  # Version 3
-  num1 = random.randint(1, 50)
-  num2 = random.randint(1, 50)
-  operator = random.choice(['+', '-'])
+    num1 = random.randint(1, 50)
+    num2 = random.randint(1, 50)
+    operator = random.choice(['+', '-'])
 
-  if operator == '-' and num1 < num2:
-    num1, num2 = num2, num1  # Swap numbers to avoid negative results
+    if operator == '-' and num1 < num2:
+        num1, num2 = num2, num1
 
-  question = f"What is {num1} {operator} {num2}? "
-  answer = num1 + num2 if operator == '+' else num1 - num2
-  return question, answer
+    question = f"What is {num1} {operator} {num2}? "
+    answer = num1 + num2 if operator == '+' else num1 - num2
+    return question, answer
 
+def load_leaderboard():
+    try:
+        with open("leaderboard.txt", "r") as file:
+            leaderboard = [line.strip().split(",") for line in file]
+    except FileNotFoundError:
+        leaderboard = []
+    return leaderboard
+
+def save_leaderboard(leaderboard):
+    with open("leaderboard.txt", "w") as file:
+        for entry in leaderboard:
+            file.write(",".join(entry) + "\n")
+
+def display_leaderboard(leaderboard):
+    print("\nLeaderboard:")
+    if leaderboard:
+        leaderboard.sort(key=lambda x: int(x[1]), reverse=True)
+        max_name_length = max(len(entry[0]) for entry in leaderboard)
+        max_score_length = len(max(leaderboard, key=lambda x: len(x[1]))[1])
+        for rank, (name, score) in enumerate(leaderboard, start=1):
+            padding = max_name_length + max_score_length + 8 - len(name) - len(score)
+            print(f"{rank}. {name}:{' ' * padding}{score}")
+    else:
+        print("The leaderboard is empty.")
 
 def main():
-# Nate Lepper
-# August 30 2023
-# Main math game function
-# Version 3
-  score = 0
-  # Set Score
-  num_questions = 5
-  # Set Number of Questions
-  lives = 3
-  # Main Sequence
-  starting_menu()
+    introduction()
+    player_name = get_player_name()
+    print(f"Hello, {player_name}!\n")
 
-  playing = True
-  while playing:
-  # player loop
-  # Version 1
-    for _ in range(num_questions):
-      # Printing Number Generation on Console
-      # Version 3
-      question, correct_answer = generate_question()
-      print(question)
+    leaderboard = load_leaderboard()
 
-      user_answer = input("Your answer: ")
+    while True:
+        score = 0
+        num_questions = 5
+        lives = 3
 
-      try:
-        if int(user_answer) == correct_answer:
-          print("Correct!\n")
-          score += 1
-        else:
-          print(f"Wrong! The correct answer is {correct_answer}\n")
-      except ValueError:
-        print("Invalid input. Please enter a valid number.\n")
+        playing = True
+        while playing:
+            for _ in range(num_questions):
+                question, correct_answer = generate_question()
+                print(question)
 
-    print(f"Game over! Your score: {score}/{num_questions}")
-    play_again_input = input("Do you want to play again? (yes/no): ")
-    play_again = play_again_input.lower() == 'yes'
+                user_answer = input("Your answer: ")
 
-    if play_again:
-      print("\nStarting a new game...\n")
-      clear_console()
-      starting_menu()
-      score = 0
-      lives = 3
-    else:
-      print("Thank you for playing!")
-      playing = False
+                try:
+                    if int(user_answer) == correct_answer:
+                        print("Correct!\n")
+                        score += 1
+                    else:
+                        print(f"Wrong! The correct answer is {correct_answer}\n")
+                        lives -= 1
+                        if lives == 0:
+                            print("Out of lives. Game over!")
+                            playing = False
+                            break
+                except ValueError:
+                    print("Invalid input. Please enter a valid number.\n")
 
+            if lives > 0:
+                print(f"Game over, {player_name}! Your score: {score}/{num_questions}")
+                leaderboard.append((player_name, str(score)))
+                save_leaderboard(leaderboard)
+                display_leaderboard(leaderboard)
+
+                play_again_input = input("Do you want to play again? (yes/no): ")
+                if play_again_input.lower() == 'no':
+                    print(f"Thank you for playing, {player_name}!")
+                    playing = False
+                elif play_again_input.lower() != 'yes':
+                    print("Please enter 'yes' or 'no'.")
+                else:
+                    print("\nStarting a new game...\n")
+                    clear_console()
+            else:
+                print(f"Game over, {player_name}! Your score: {score}/{num_questions}")
+                print("You have run out of lives. Better luck next time!")
+                leaderboard.append((player_name, str(score)))
+                save_leaderboard(leaderboard)
+                display_leaderboard(leaderboard)
 
 if __name__ == "__main__":
-  main()
+    main()

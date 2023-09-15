@@ -1,0 +1,8 @@
+nate,0
+Nate,3
+Nate,0
+Nate,0
+,0
+,0
+,0
+jack,0
