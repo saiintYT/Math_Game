@@ -92,16 +92,21 @@ def main():
                 leaderboard.append((player_name, str(score)))
                 save_leaderboard(leaderboard)
                 display_leaderboard(leaderboard)
-
-                play_again_input = input("Do you want to play again? (yes/no): ")
-                if play_again_input.lower() == 'no':
+                loop = True
+                while loop is True:
+                  play_again_input = input("Do you want to play again? (yes/no): ")
+                  if play_again_input.lower() == 'no':
                     print(f"Thank you for playing, {player_name}!")
                     playing = False
-                elif play_again_input.lower() != 'yes':
-                    print("Please enter 'yes' or 'no'.")
-                else:
-                    print("\nStarting a new game...\n")
-                    clear_console()
+                    loop = False
+                    return False
+                    exit()
+                  elif play_again_input.lower() != 'yes':
+                      print("Please enter 'yes' or 'no'.")
+                  else:
+                      print("\nStarting a new game...\n")
+                      clear_console()
+                      loop = False
             else:
                 print(f"Game over, {player_name}! Your score: {score}/{num_questions}")
                 print("You have run out of lives. Better luck next time!")
@@ -109,5 +114,5 @@ def main():
                 save_leaderboard(leaderboard)
                 display_leaderboard(leaderboard)
 
-if __name__ == "__main__":
-    main()
+
+main()
