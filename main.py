@@ -1,8 +1,19 @@
 import random
 import os
 
+# Nate Lepper
+# August 30 2023
+# Clears Console
+# Version 1
+  # Clear console screen for Windows and Unix-like systems
+
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+# Nate Lepper
+# August 30 2023
+# Starting Menu
+# Version 3
 
 def introduction():
     print("Welcome to the Math Game!")
@@ -16,6 +27,11 @@ def get_player_name():
     name = input("Please enter your name: ")
     return name
 
+# Nate Lepper
+# August 30 2023
+# Random Question Generate
+# Version 3
+
 def generate_question():
     num1 = random.randint(1, 50)
     num2 = random.randint(1, 50)
@@ -27,6 +43,11 @@ def generate_question():
     question = f"What is {num1} {operator} {num2}? "
     answer = num1 + num2 if operator == '+' else num1 - num2
     return question, answer
+
+# Nate Lepper
+# October 25 2023
+# Adding Leaderboard
+# Version 2
 
 def load_leaderboard():
     try:
@@ -52,6 +73,11 @@ def display_leaderboard(leaderboard):
             print(f"{rank}. {name}:{' ' * padding}{score}")
     else:
         print("The leaderboard is empty.")
+      
+# Nate Lepper
+# August 30 2023
+# Main math game function
+# Version 3
 
 def main():
     introduction()
